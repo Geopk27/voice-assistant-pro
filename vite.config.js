@@ -19,9 +19,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          ui: ['@radix-ui/react-button', '@radix-ui/react-card'],
-          i18n: ['i18next', 'react-i18next', 'i18next-browser-languagedetector']
+  vendor: ['react', 'react-dom'],
+  // ui: ['@radix-ui/react-button', '@radix-ui/react-card'], // 像这样注释掉
+  i18n: ['i18next', 'react-i18next', 'i18next-browser-languagedetector']
         }
       }
     }
