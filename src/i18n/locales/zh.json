@@ -1,0 +1,138 @@
+{
+  "app": {
+    "title": "语音助手专业版",
+    "subtitle": "为设计师打造的专业文件管理系统",
+    "loading": "加载中...",
+    "error": "发生错误"
+  },
+  "navigation": {
+    "dashboard": "仪表板",
+    "files": "文件",
+    "settings": "设置",
+    "upgrade": "升级"
+  },
+  "voice": {
+    "title": "语音控制",
+    "description": "点击麦克风开始语音识别，说出文件名或关键词来打开文件",
+    "startListening": "开始监听",
+    "stopListening": "停止监听",
+    "listening": "正在监听...",
+    "processing": "处理中...",
+    "result": "识别结果：",
+    "execution": "执行结果：",
+    "error": "错误：",
+    "recentCommands": "最近命令：",
+    "noMicrophonePermission": "麦克风权限被拒绝",
+    "browserNotSupported": "您的浏览器不支持语音识别功能。请使用Chrome、Edge或Safari浏览器以获得最佳体验。",
+    "continuousMode": "持续模式",
+    "continuousModeDesc": "持续监听直到手动停止"
+  },
+  "files": {
+    "title": "文件管理",
+    "description": "上传您的照片、PDF或PPT文件，并为每个文件设置关键词",
+    "upload": "上传文件",
+    "noFiles": "还没有上传任何文件",
+    "uploadPrompt": "点击上方按钮开始上传",
+    "keywords": "关键词（用逗号分隔）",
+    "keywordsPlaceholder": "例如：照片AA，设计图，客户资料",
+    "fileCount": "{{count}} 个文件",
+    "delete": "删除",
+    "preview": "预览",
+    "supportedFormats": "支持格式：图片、PDF、PPT文件",
+    "batchUpload": "支持批量上传"
+  },
+  "membership": {
+    "title": "会员计划",
+    "current": "当前计划",
+    "upgrade": "升级",
+    "free": {
+      "name": "免费版",
+      "price": "免费",
+      "features": [
+        "最多10个文件",
+        "基础语音识别",
+        "标准支持"
+      ]
+    },
+    "plus": {
+      "name": "Plus版",
+      "price": "￥68/月",
+      "features": [
+        "最多100个文件",
+        "高级语音识别",
+        "持续监听",
+        "优先支持",
+        "自定义关键词"
+      ]
+    },
+    "pro": {
+      "name": "Pro版",
+      "price": "￥138/月",
+      "features": [
+        "无限文件",
+        "AI智能识别",
+        "团队协作",
+        "高级分析",
+        "API访问",
+        "24/7支持"
+      ]
+    }
+  },
+  "usage": {
+    "title": "使用说明",
+    "step1": {
+      "title": "1. 上传文件",
+      "description": "支持图片、PDF和PPT文件格式，可批量上传"
+    },
+    "step2": {
+      "title": "2. 设置关键词",
+      "description": "为每个文件添加便于识别的关键词，用逗号分隔"
+    },
+    "step3": {
+      "title": "3. 语音控制",
+      "description": "说\"打开照片AA\"或\"显示设计图\"等命令即可自动打开文件"
+    },
+    "commands": {
+      "title": "语音命令示例：",
+      "examples": [
+        "'打开照片AA' - 打开名为照片AA的文件",
+        "'显示设计图' - 打开包含'设计图'关键词的文件",
+        "'查看客户资料' - 打开包含'客户资料'关键词的文件",
+        "'播放演示文稿' - 打开PPT类型的文件"
+      ]
+    }
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "theme": "主题",
+    "voice": "语音设置",
+    "recognition": {
+      "title": "识别设置",
+      "language": "识别语言",
+      "continuous": "持续模式",
+      "sensitivity": "灵敏度"
+    }
+  },
+  "commands": {
+    "open": "打开",
+    "show": "显示",
+    "display": "展示",
+    "view": "查看",
+    "play": "播放",
+    "close": "关闭"
+  },
+  "fileTypes": {
+    "image": ["照片", "图片", "图像"],
+    "pdf": ["文档", "资料", "PDF"],
+    "presentation": ["演示", "幻灯片", "PPT"]
+  },
+  "messages": {
+    "fileOpened": "已打开文件：{{fileName}}",
+    "fileNotFound": "未找到匹配的文件：\"{{command}}\"",
+    "uploadSuccess": "文件上传成功",
+    "deleteSuccess": "文件删除成功",
+    "permissionDenied": "权限被拒绝",
+    "networkError": "网络错误，请重试"
+  }
+}

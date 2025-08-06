@@ -1,0 +1,138 @@
+{
+  "app": {
+    "title": "Voice Assistant Pro",
+    "subtitle": "Professional File Management System for Designers",
+    "loading": "Loading...",
+    "error": "Error occurred"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "files": "Files",
+    "settings": "Settings",
+    "upgrade": "Upgrade"
+  },
+  "voice": {
+    "title": "Voice Control",
+    "description": "Click the microphone to start voice recognition, say file names or keywords to open files",
+    "startListening": "Start Listening",
+    "stopListening": "Stop Listening",
+    "listening": "Listening...",
+    "processing": "Processing...",
+    "result": "Recognition Result:",
+    "execution": "Execution Result:",
+    "error": "Error:",
+    "recentCommands": "Recent Commands:",
+    "noMicrophonePermission": "Microphone permission denied",
+    "browserNotSupported": "Your browser does not support speech recognition. Please use Chrome, Edge, or Safari for the best experience.",
+    "continuousMode": "Continuous Mode",
+    "continuousModeDesc": "Keep listening until manually stopped"
+  },
+  "files": {
+    "title": "File Management",
+    "description": "Upload your photos, PDFs, or PPT files and set keywords for each file",
+    "upload": "Upload Files",
+    "noFiles": "No files uploaded yet",
+    "uploadPrompt": "Click the button above to start uploading",
+    "keywords": "Keywords (comma separated)",
+    "keywordsPlaceholder": "e.g., Photo AA, Design Draft, Client Materials",
+    "fileCount": "{{count}} files",
+    "delete": "Delete",
+    "preview": "Preview",
+    "supportedFormats": "Supported formats: Images, PDF, PPT files",
+    "batchUpload": "Batch upload supported"
+  },
+  "membership": {
+    "title": "Membership Plans",
+    "current": "Current Plan",
+    "upgrade": "Upgrade",
+    "free": {
+      "name": "Free",
+      "price": "Free",
+      "features": [
+        "Up to 10 files",
+        "Basic voice recognition",
+        "Standard support"
+      ]
+    },
+    "plus": {
+      "name": "Plus",
+      "price": "$9.99/month",
+      "features": [
+        "Up to 100 files",
+        "Advanced voice recognition",
+        "Continuous listening",
+        "Priority support",
+        "Custom keywords"
+      ]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$19.99/month",
+      "features": [
+        "Unlimited files",
+        "AI-powered recognition",
+        "Team collaboration",
+        "Advanced analytics",
+        "API access",
+        "24/7 support"
+      ]
+    }
+  },
+  "usage": {
+    "title": "How to Use",
+    "step1": {
+      "title": "1. Upload Files",
+      "description": "Support for images, PDF, and PPT file formats, batch upload available"
+    },
+    "step2": {
+      "title": "2. Set Keywords",
+      "description": "Add easily recognizable keywords for each file, separated by commas"
+    },
+    "step3": {
+      "title": "3. Voice Control",
+      "description": "Say commands like 'Open Photo AA' or 'Show Design Draft' to automatically open files"
+    },
+    "commands": {
+      "title": "Voice Command Examples:",
+      "examples": [
+        "'Open Photo AA' - Opens the file named Photo AA",
+        "'Show Design Draft' - Opens files containing 'Design Draft' keyword",
+        "'View Client Materials' - Opens files containing 'Client Materials' keyword",
+        "'Play Presentation' - Opens PPT type files"
+      ]
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "voice": "Voice Settings",
+    "recognition": {
+      "title": "Recognition Settings",
+      "language": "Recognition Language",
+      "continuous": "Continuous Mode",
+      "sensitivity": "Sensitivity"
+    }
+  },
+  "commands": {
+    "open": "open",
+    "show": "show",
+    "display": "display",
+    "view": "view",
+    "play": "play",
+    "close": "close"
+  },
+  "fileTypes": {
+    "image": ["photo", "image", "picture"],
+    "pdf": ["document", "pdf", "file"],
+    "presentation": ["presentation", "slides", "ppt"]
+  },
+  "messages": {
+    "fileOpened": "Opened file: {{fileName}}",
+    "fileNotFound": "No matching file found: \"{{command}}\"",
+    "uploadSuccess": "Files uploaded successfully",
+    "deleteSuccess": "File deleted successfully",
+    "permissionDenied": "Permission denied",
+    "networkError": "Network error, please try again"
+  }
+}
