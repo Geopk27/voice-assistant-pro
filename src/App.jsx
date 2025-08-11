@@ -266,8 +266,8 @@ function App() {
           <Label className="text-xs">{t('files.keywords')}</Label>
           <Input
             placeholder={t('files.keywordsPlaceholder')}
-            value={file.keywords || ''}
-            onChange={(e) => handleUpdateKeywords(file.id, e.target.value)}
+            defaultValue={file.keywords || ''}
+            onBlur={(e) => handleUpdateKeywords(file.id, e.target.value)}
             className="text-xs"
           />
         </div>
