@@ -17,7 +17,7 @@ import { Switch } from './components/ui/switch'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
 import { Progress } from './components/ui/progress'
-import { FileCard } from './components/FileCard'; // <--- 关键改动：导入新的独立组件
+import { FileCard } from './components/FileCard';
 
 // Icons
 import { 
@@ -229,7 +229,7 @@ function App() {
   )
 
   // 会员计划卡片
-  const MembershipCard = ({ planKey }) => { // 删除了未使用的 plan prop
+  const MembershipCard = ({ planKey }) => {
     const planInfo = getPlanInfo(planKey)
     const isCurrentPlan = planKey === currentPlan
     
@@ -480,7 +480,6 @@ function App() {
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {/* 关键改动：使用新的 props 渲染 FileCard */}
                       {files.map(file => (
                         <FileCard 
                           key={file.id} 
@@ -533,361 +532,22 @@ function App() {
                     </div>
                   </div>
                 </div>
-              </C好的，完全没问题！
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-看来我们之前的沟通中，`App.jsx` 的修改部分没有被正确地保存下来。不用担心，我现在就为您提供一个**完整、正确、包含了使用新版 `FileCard` 组件逻辑**的 `App.jsx` 文件。
-
-您只需要做一件事：**用下面的全部代码，覆盖掉您本地 `src/App.jsx` 文件里的所有内容。**
-
-这个版本的 `App.jsx` 已经为您做好了以下几件事：
-1.  删除了旧的、内嵌的 `FileCard` 组件定义。
-2.  在文件顶部正确地导入了我们新的、独立的 `FileCard` 组件 (`import { FileCard } from './components/FileCard';`)。
-3.  在文件列表的 `map` 循环中，正确地将所有需要的 `props` (包括 `allFiles`, `onUpdateKeywords` 等) 传递给了 `<FileCard />`。
-
----
-
-### **最终版的 `App.jsx` 代码：**
-
-```javascript
-import React, { useState, useEffect, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
-import './App.css'
-
-// Hooks
-import useSpeechRecognition from './hooks/useSpeechRecognition'
-import useMembership from './hooks/useMembership'
-
-// Components
-import { Button } from './components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card'
-import { Input } from './components/ui/input'
-import { Label } from './components/ui/label'
-import { Badge } from './components/ui/badge'
-import { Alert, AlertDescription } from './components/ui/alert'
-import { Switch } from './components/ui/switch'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
-import { Progress } from './components/ui/progress'
-import { FileCard } from './components/FileCard'; // <--- 关键改动：导入新的独立组件
-
-// Icons
-import { 
-  Mic, 
-  MicOff, 
-  Upload, 
-  Play, 
-  Trash2, 
-  Settings, 
-  Globe, 
-  Crown,
-  FileText,
-  Image,
-  Presentation,
-  AlertCircle,
-  CheckCircle,
-  Volume2,
-  VolumeX
-} from 'lucide-react'
-
-// Utils
-import { 
-  processVoiceCommand, 
-  validateFile, 
-  generateFileId, 
-  formatFileSize, 
-  getFileIcon,
-  saveFilesToStorage,
-  loadFilesFromStorage,
-  cleanupFileUrls
-} from './utils/fileManager'
-
-function App() {
-  const { t, i18n } = useTranslation()
-  const {
-    isListening,
-    transcript,
-    error: speechError,
-    isSupported,
-    isContinuous,
-    recentCommands,
-    startListening,
-    stopListening,
-    toggleContinuous,
-    clearError,
-    clearTranscript
-  } = useSpeechRecognition()
-
-  const {
-    currentPlan,
-    canAddFiles,
-    getRemainingFiles,
-    getPlanInfo,
-    upgradePlan,
-    hasFeature,
-    needsUpgrade,
-    MEMBERSHIP_PLANS
-  } = useMembership()
-
-  // State
-  const [files, setFiles] = useState([])
-  const [selectedFile, setSelectedFile] = useState(null)
-  const [executionResult, setExecutionResult] = useState('')
-  const [activeTab, setActiveTab] = useState('dashboard')
-
-  // 加载保存的文件
-  useEffect(() => {
-    const savedFiles = loadFilesFromStorage()
-    if (savedFiles.length > 0) {
-      setFiles(savedFiles)
-    }
-  }, [])
-
-  // 保存文件到localStorage
-  useEffect(() => {
-    if (files.length > 0) {
-      saveFilesToStorage(files)
-    }
-  }, [files])
-
-  // 处理语音识别结果
-  useEffect(() => {
-    if (transcript && transcript.trim()) {
-      const result = processVoiceCommand(transcript, files, i18n.language)
-      setExecutionResult(result.message)
-      
-      if (result.success && result.selectedFile) {
-        setSelectedFile(result.selectedFile)
-        // 自动打开文件
-        if (result.selectedFile.url) {
-          window.open(result.selectedFile.url, '_blank')
-        }
-      }
-      
-      // 清除转录，准备下一次识别
-      setTimeout(() => {
-        clearTranscript()
-      }, 3000)
-    }
-  }, [transcript, files, i18n.language, clearTranscript])
-  // 文件上传处理
-  const handleFileUpload = useCallback((event) => {
-    const uploadedFiles = Array.from(event.target.files)
-    
-    if (!canAddFiles(files.length + uploadedFiles.length)) {
-      setExecutionResult(t('messages.fileLimit', { 
-        limit: getPlanInfo().limits.maxFiles 
-      }))
-      return
-    }
-
-    const newFiles = []
-    
-    uploadedFiles.forEach(file => {
-      try {
-        validateFile(file)
-        
-        const fileData = {
-          id: generateFileId(),
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          url: URL.createObjectURL(file),
-          keywords: '',
-          uploadTime: Date.now()
-        }
-        
-        newFiles.push(fileData)
-      } catch (error) {
-        setExecutionResult(`${file.name}: ${error.message}`)
-      }
-    })
-    
-    if (newFiles.length > 0) {
-      setFiles(prev => [...prev, ...newFiles])
-      setExecutionResult(t('messages.uploadSuccess'))
-    }
-    
-    // 重置input
-    event.target.value = ''
-  }, [files.length, canAddFiles, getPlanInfo, t])
-
-  // 删除文件
-  const handleDeleteFile = useCallback((fileId) => {
-    setFiles(prev => {
-      const fileToDelete = prev.find(f => f.id === fileId)
-      if (fileToDelete && fileToDelete.url) {
-        URL.revokeObjectURL(fileToDelete.url)
-      }
-      return prev.filter(f => f.id !== fileId)
-    })
-    setExecutionResult(t('messages.deleteSuccess'))
-  }, [t])
-
-  // 更新文件关键词
-  const handleUpdateKeywords = useCallback((fileId, keywords) => {
-    setFiles(prev => prev.map(file => 
-      file.id === fileId ? { ...file, keywords } : file
-    ))
-  }, [])
-
-  // 预览文件
-  const handlePreviewFile = useCallback((file) => {
-    setSelectedFile(file)
-    if (file.url) {
-      window.open(file.url, '_blank')
-    }
-  }, [])
-
-  // 切换语言
-  const handleLanguageChange = useCallback((language) => {
-    i18n.changeLanguage(language)
-  }, [i18n])
-
-  // 语音控制按钮
-  const VoiceControlButton = () => (
-    <div className="flex flex-col items-center space-y-4">
-      <Button
-        onClick={isListening ? stopListening : startListening}
-        disabled={!isSupported}
-        size="lg"
-        className={`w-20 h-20 rounded-full ${
-          isListening 
-            ? 'voice-listening text-white' 
-            : 'bg-primary hover:bg-primary/90'
-        } ${isListening ? 'voice-pulse' : ''}`}
-      >
-        {isListening ? (
-          <Volume2 className="w-8 h-8" />
-        ) : (
-          <Mic className="w-8 h-8" />
-        )}
-      </Button>
-      
-      <div className="flex items-center space-x-2">
-        <Switch
-          checked={isContinuous}
-          onCheckedChange={toggleContinuous}
-          disabled={!isSupported || needsUpgrade('continuous_listening')}
-        />
-        <Label className="text-sm">
-          {t('voice.continuousMode')}
-          {needsUpgrade('continuous_listening') && (
-            <Crown className="w-4 h-4 inline ml-1 text-yellow-500" />
-          )}
-        </Label>
-      </div>
+          {/* Upgrade Tab */}
+          <TabsContent value="upgrade" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <MembershipCard planKey={MEMBERSHIP_PLANS.FREE} />
+              <MembershipCard planKey={MEMBERSHIP_PLANS.PLUS} />
+              <MembershipCard planKey={MEMBERSHIP_PLANS.PRO} />
+            </div>
+          </TabsContent>
+        </Tabs>
+      </main>
     </div>
   )
+}
 
-  // 会员计划卡片
-  const MembershipCard = ({ planKey }) => { // 删除了未使用的 plan prop
-    const planInfo = getPlanInfo(planKey)
-    const isCurrentPlan = planKey === currentPlan
-    
-    return (
-      <Card className={`membership-card ${isCurrentPlan ? 'ring-2 ring-primary' : ''}`}>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center space-x-2">
-              <span>{t(`membership.${planKey}.name`)}</span>
-              {isCurrentPlan && <Crown className="w-5 h-5 text-yellow-500" />}
-            </CardTitle>
-            <Badge variant={isCurrentPlan ? 'default' : 'secondary'}>
-              {t(`membership.${planKey}.price`)}
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2 mb-4">
-            {t(`membership.${planKey}.features`, { returnObjects: true }).map((feature, index) => (
-              <li key={index} className="flex items-center space-x-2 text-sm">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-          {!isCurrentPlan && (
-            <Button 
-              onClick={() => upgradePlan(planKey)}
-              className="w-full"
-            >
-              {t('membership.upgrade')}
-            </Button>
-          )}
-        </CardContent>
-      </Card>
-    )
-  }
-
-  if (!isSupported) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <Alert className="max-w-md">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
-            {t('voice.browserNotSupported')}
-          </AlertDescription>
-        </Alert>
-      </div>
-    )
-  }
-
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">{t('app.title')}</h1>
-              <p className="text-muted-foreground">{t('app.subtitle')}</p>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              {/* 语言切换 */}
-              <Select value={i18n.language} onValueChange={handleLanguageChange}>
-                <SelectTrigger className="w-32">
-                  <Globe className="w-4 h-4 mr-2" />
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="zh">中文</SelectItem>
-                </SelectContent>
-              </Select>
-              
-              {/* 当前计划显示 */}
-              <Badge variant="outline" className="flex items-center space-x-1">
-                <Crown className="w-4 h-4" />
-                <span>{t(`membership.${currentPlan}.name`)}</span>
-              </Badge>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="dashboard">{t('navigation.dashboard')}</TabsTrigger>
-            <TabsTrigger value="files">{t('navigation.files')}</TabsTrigger>
-            <TabsTrigger value="settings">{t('navigation.settings')}</TabsTrigger>
-            <TabsTrigger value="upgrade">{t('navigation.upgrade')}</TabsTrigger>
-          </TabsList>
-
-          {/* Dashboard Tab */}
-          <TabsContent value="dashboard" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* 语音控制面板 */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t('voice.title')}</CardTitle>
-                  <CardDescription>{t('voice.description')}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <VoiceControlButton />
-                  
-                  {/* 状态显示 */}
-                  <div className="space-y-2">
-                    {is
+export default App
