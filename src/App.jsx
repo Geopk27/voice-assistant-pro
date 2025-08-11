@@ -106,9 +106,9 @@ function App() {
       
       if (result.success && result.selectedFile) {
         setSelectedFile(result.selectedFile)
-        // 自动打开文件
+        // 自动打开文件，使用文件ID作为窗口名
         if (result.selectedFile.url) {
-          window.open(result.selectedFile.url, '_blank')
+          window.open(result.selectedFile.url, result.selectedFile.id)
         }
       }
       
@@ -118,6 +118,7 @@ function App() {
       }, 3000)
     }
   }, [transcript, files, i18n.language, clearTranscript])
+
   // 文件上传处理
   const handleFileUpload = useCallback((event) => {
     const uploadedFiles = Array.from(event.target.files)
@@ -179,13 +180,14 @@ function App() {
     ))
   }, [])
 
-  // 预览文件
+  // 预览文件 - 现在只处理手动点击事件
   const handlePreviewFile = useCallback((file) => {
-    setSelectedFile(file)
+    setSelectedFile(file);
+    // 手动点击预览时，也使用文件ID作为窗口名
     if (file.url) {
-      window.open(file.url, '_blank')
+      window.open(file.url, file.id);
     }
-  }, [])
+  }, []);
 
   // 切换语言
   const handleLanguageChange = useCallback((language) => {
@@ -532,22 +534,4 @@ function App() {
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Upgrade Tab */}
-          <TabsContent value="upgrade" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <MembershipCard planKey={MEMBERSHIP_PLANS.FREE} />
-              <MembershipCard planKey={MEMBERSHIP_PLANS.PLUS} />
-              <MembershipCard planKey={MEMBERSHIP_PLANS.PRO} />
-            </div>
-          </TabsContent>
-        </Tabs>
-      </main>
-    </div>
-  )
-}
-
-export default App
+              </C
