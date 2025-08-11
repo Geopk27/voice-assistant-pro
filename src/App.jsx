@@ -534,4 +534,22 @@ function App() {
                     </div>
                   </div>
                 </div>
-              </C
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Upgrade Tab */}
+          <TabsContent value="upgrade" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <MembershipCard planKey={MEMBERSHIP_PLANS.FREE} />
+              <MembershipCard planKey={MEMBERSHIP_PLANS.PLUS} />
+              <MembershipCard planKey={MEMBERSHIP_PLANS.PRO} />
+            </div>
+          </TabsContent>
+        </Tabs>
+      </main>
+    </div>
+  )
+}
+
+export default App
